@@ -3,26 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/facts_list_fragments">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.proficiency.assingment.ui.FactsListFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:id="@+id/facts_list_fragments"
+        android:name="com.proficiency.assingment.ui.fragments.FactsListFragment"
+        android:label="@string/fact_fragment_label"
+        tools:layout="@layout/fragment_facts_list">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_FactsListFragment_to_SecondFragment"
+            app:destination="@id/details_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.proficiency.assingment.ui.DetailsFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        android:id="@+id/details_fragment"
+        android:name="com.proficiency.assingment.ui.fragments.DetailsFragment"
+        android:label="@string/details_fragment_label"
+        tools:layout="@layout/fragment_details">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            app:destination="@id/facts_list_fragments" />
     </fragment>
 </navigation>
