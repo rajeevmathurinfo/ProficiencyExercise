@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.proficiency.assingment.R
 
 /**
@@ -28,5 +29,6 @@ class DetailsFragment : Fragment() {
         view.findViewById<Button>(R.id.button_second).setOnClickListener {
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
         }
+        activity?.findViewById<FloatingActionButton>(R.id.fab)?.visibility = View.GONE
     }
 }

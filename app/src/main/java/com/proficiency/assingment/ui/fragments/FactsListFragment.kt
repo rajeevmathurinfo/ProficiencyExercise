@@ -80,7 +80,7 @@ class FactsListFragment : Fragment() {
 
             }
         })
-
+        activity?.findViewById<FloatingActionButton>(R.id.fab)?.visibility = View.VISIBLE
         activity?.findViewById<FloatingActionButton>(R.id.fab)?.setOnClickListener {
             viewModel.getFacts()
         }

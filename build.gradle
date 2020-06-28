@@ -23,6 +23,9 @@ buildscript {
         lifecycle_version = "2.2.0"
         dimensVersion = '1.0.6'
         glide_version = "4.11.0"
+        coreTestingVersion = '2.0.0'
+        mockitoVersion = '1.10.19'
+
 
 
     }
