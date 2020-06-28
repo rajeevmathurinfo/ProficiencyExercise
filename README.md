@@ -5,3 +5,4 @@
 4. The list should scroll smoothly
 5. DIffUtill
 6. Refreshing UI using fab button click
+7. language: kotlin
