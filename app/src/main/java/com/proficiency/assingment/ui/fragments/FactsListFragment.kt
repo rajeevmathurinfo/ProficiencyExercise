@@ -22,9 +22,6 @@ import com.proficiency.assingment.util.Resource
 import kotlinx.android.synthetic.main.fragment_facts_list.*
 
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 class FactsListFragment : Fragment() {
 
     lateinit var viewModel: FactsViewModel
@@ -40,12 +37,16 @@ class FactsListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // need to pass context for cache in retrofit instance
         activity?.application?.let { RetrofitInstance.setContext(it) }
+        //initializing reposotory and view model
         val repository = Repository()
         val viewModelProviderFactory = ViewModelFactory(requireActivity().application,repository)
         viewModel =
             ViewModelProvider(this, viewModelProviderFactory).get(FactsViewModel::class.java)
+
         setupRecyclerView()
+
         factsAdapter.setOnItemClickListener {
             findNavController().navigate(R.id.action_FactsListFragment_to_SecondFragment)
         }

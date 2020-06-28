@@ -31,7 +31,7 @@ class FactsViewModel(
         mutableLiveData.postValue(Resource.Loading())
         try {
             val httpCacheDirectory =
-                File(getApplication<FactsAppliction>().getCacheDir(), CACHE_DIR)
+                File(getApplication<FactsAppliction>().cacheDir, CACHE_DIR)
             if (httpCacheDirectory.exists()) {
                 val response = repository.getFacts()
                 mutableLiveData.postValue(handleResponse(response))
