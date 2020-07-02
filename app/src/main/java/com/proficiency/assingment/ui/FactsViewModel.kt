@@ -22,7 +22,6 @@ class FactsViewModel(
     private val repository: Repository
 ) : AndroidViewModel(app) {
     val mutableLiveData: MutableLiveData<Resource<FactsResponse>> = MutableLiveData()
-
     init {
         getFacts()
     }
@@ -30,26 +29,18 @@ class FactsViewModel(
     fun getFacts() = viewModelScope.launch {
         mutableLiveData.postValue(Resource.Loading())
         try {
-            val httpCacheDirectory =
-                File(getApplication<FactsAppliction>().cacheDir, CACHE_DIR)
-            if (httpCacheDirectory.exists()) {
+            if (Utils.hasInternetConnection(getApplication<FactsAppliction>())) {
                 val response = repository.getFacts()
                 mutableLiveData.postValue(handleResponse(response))
             } else {
-                if (Utils.hasInternetConnection(getApplication<FactsAppliction>())) {
-                    val response = repository.getFacts()
-                    mutableLiveData.postValue(handleResponse(response))
-                } else {
-                    mutableLiveData.postValue(
-                        Resource.Error(
-                            getApplication<FactsAppliction>().getString(
-                                R.string.no_internet
-                            )
+                mutableLiveData.postValue(
+                    Resource.Error(
+                        getApplication<FactsAppliction>().getString(
+                            R.string.no_internet
                         )
                     )
-                }
+                )
             }
-
 
         } catch (t: Throwable) {
             when (t) {
@@ -70,12 +61,27 @@ class FactsViewModel(
             }
         }
     }
+
     private fun handleResponse(response: Response<FactsResponse>): Resource<FactsResponse>? {
         if (response.isSuccessful) {
             response.body()?.let { resultReesponse ->
+                deleteFacts()
+                for (index in response.body()?.rows?.indices!!) {
+                    saveFacts(response.body()?.rows!!.get(index))
+                }
                 return Resource.Success(resultReesponse)
             }
         }
         return Resource.Error(response.message())
+    }
+
+    fun saveFacts(row: FactsResponse.Row) = viewModelScope.launch {
+        repository.upsert(row)
+    }
+
+    fun getSavedFacts() = repository.getSavedFacts()
+
+    fun deleteFacts() = viewModelScope.launch {
+        repository.deleteFacts()
     }
 }

@@ -14,17 +14,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.proficiency.assingment.R
 import com.proficiency.assingment.adapter.FactsAdapter
-import com.proficiency.assingment.api.RetrofitInstance
+import com.proficiency.assingment.db.FactsDatabase
 import com.proficiency.assingment.repository.Repository
 import com.proficiency.assingment.ui.FactsViewModel
 import com.proficiency.assingment.ui.ViewModelFactory
-import com.proficiency.assingment.util.Resource
+import com.proficiency.assingment.util.Resource.*
 import kotlinx.android.synthetic.main.fragment_facts_list.*
 
 
 class FactsListFragment : Fragment() {
 
-    lateinit var viewModel: FactsViewModel
+    private lateinit var viewModel: FactsViewModel
     private lateinit var factsAdapter: FactsAdapter
 
     override fun onCreateView(
@@ -38,9 +38,8 @@ class FactsListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // need to pass context for cache in retrofit instance
-        activity?.application?.let { RetrofitInstance.setContext(it) }
         //initializing reposotory and view model
-        val repository = Repository()
+        val repository = Repository(FactsDatabase(requireActivity()))
         val viewModelProviderFactory = ViewModelFactory(requireActivity().application,repository)
         viewModel =
             ViewModelProvider(this, viewModelProviderFactory).get(FactsViewModel::class.java)
@@ -53,16 +52,15 @@ class FactsListFragment : Fragment() {
 
         viewModel.mutableLiveData.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
-                is Resource.Success -> {
+                is Success -> {
                     hideProgressBar()
                     response.data?.let { factResponse ->
                         setupToolBar(factResponse.title)
-                        factsAdapter.differ.submitList(factResponse.rows)
+                       // factsAdapter.differ.submitList(factResponse.rows)
                     }
-
                 }
 
-                is Resource.Error -> {
+                is Error -> {
                     hideProgressBar()
                     response.message?.let { message ->
                         val preMessage: String = resources.getString(R.string.an_error)
@@ -72,18 +70,21 @@ class FactsListFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-
                 }
-
-                is Resource.Loading -> {
+                is Loading -> {
                     showProgressBar()
                 }
 
             }
         })
-        activity?.findViewById<FloatingActionButton>(R.id.fab)?.visibility = View.VISIBLE
-        activity?.findViewById<FloatingActionButton>(R.id.fab)?.setOnClickListener {
+
+        viewModel.getSavedFacts().observe(viewLifecycleOwner, Observer { row ->
+            factsAdapter.differ.submitList(row)
+        })
+
+        itemsSwipeToRefresh.setOnRefreshListener {
             viewModel.getFacts()
+            itemsSwipeToRefresh.isRefreshing = false
         }
     }
 
@@ -110,6 +111,4 @@ class FactsListFragment : Fragment() {
         val appCompatActivity = activity as? AppCompatActivity
         (if (appCompatActivity != null) appCompatActivity.supportActionBar else null)?.title = title
     }
-
-
 }
