@@ -5,9 +5,10 @@ import com.proficiency.assingment.db.FactsDatabase
 import com.proficiency.assingment.model.FactsResponse
 
 class Repository(val db: FactsDatabase) {
+
     suspend fun getFacts() = RetrofitInstance.api.getFacts()
 
-    suspend fun upsert(row: FactsResponse.Row) = db.getFacsDao().upsert(row)
+    suspend fun upsert(row: ArrayList<FactsResponse.Row>) = db.getFacsDao().upsert(row)
 
     fun getSavedFacts() = db.getFacsDao().getAllFacts()
 

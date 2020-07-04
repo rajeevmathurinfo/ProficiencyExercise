@@ -64,16 +64,14 @@ class FactsViewModel(
         if (response.isSuccessful) {
             response.body()?.let { resultReesponse ->
                 deleteFacts()
-                for (index in response.body()?.rows?.indices!!) {
-                    saveFacts(response.body()?.rows!!.get(index))
-                }
+                saveFacts(resultReesponse.rows)
                 return Resource.Success(resultReesponse)
             }
         }
         return Resource.Error(response.message())
     }
 
-    fun saveFacts(row: FactsResponse.Row) = viewModelScope.launch {
+    fun saveFacts(row: ArrayList<FactsResponse.Row>) = viewModelScope.launch {
         repository.upsert(row)
     }
 

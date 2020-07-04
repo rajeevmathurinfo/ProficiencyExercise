@@ -40,14 +40,14 @@ class FactsViewModelTest {
 
     @After
     fun tearDown() {
-        appDatabase.close()
+       // appDatabase.close()
     }
 
     @Test
     @Throws(Exception::class)
     fun writeFactsAndReadInList() {
         runBlocking {
-            factsDao.upsert(FactsResponse.Row(1, "testDec", "", "TestTitle"))
+            //factsDao.upsert(FactsResponse.Row(1, "testDec", "", "TestTitle"))
             val facts = factsDao.getAllFacts()
             assertEquals(facts.value?.get(0)?.description, equalTo("testDec"))
         }
