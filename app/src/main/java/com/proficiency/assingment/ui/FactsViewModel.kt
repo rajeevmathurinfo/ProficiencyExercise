@@ -8,12 +8,10 @@ import com.proficiency.assingment.FactsAppliction
 import com.proficiency.assingment.R
 import com.proficiency.assingment.model.FactsResponse
 import com.proficiency.assingment.repository.Repository
-import com.proficiency.assingment.util.Constants.Companion.CACHE_DIR
 import com.proficiency.assingment.util.Resource
 import com.proficiency.assingment.util.Utils
 import kotlinx.coroutines.launch
 import retrofit2.Response
-import java.io.File
 import java.io.IOException
 
 

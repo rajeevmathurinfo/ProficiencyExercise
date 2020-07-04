@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.proficiency.assingment.R
 import com.proficiency.assingment.adapter.FactsAdapter
 import com.proficiency.assingment.db.FactsDatabase

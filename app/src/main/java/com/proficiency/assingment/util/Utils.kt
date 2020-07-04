@@ -6,7 +6,6 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.provider.ContactsContract
-import com.proficiency.assingment.FactsAppliction
 
 class Utils {
     companion object{
