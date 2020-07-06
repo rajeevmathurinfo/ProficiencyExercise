@@ -23,11 +23,7 @@ class ViewModelProvider {
         return Resource.Error(response.message())
     }
 
-    private fun saveFacts(
-        repository: Repository,
-        viewModel: FactsViewModel,
-        row: ArrayList<FactsResponse.Row>
-    ) = viewModel.viewModelScope.launch {
+    private fun saveFacts(repository: Repository, viewModel: FactsViewModel,row: ArrayList<FactsResponse.Row>) = viewModel.viewModelScope.launch {
         repository.upsert(row)
     }
 
