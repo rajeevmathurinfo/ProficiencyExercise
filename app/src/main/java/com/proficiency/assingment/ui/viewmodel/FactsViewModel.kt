@@ -1,4 +1,4 @@
-package com.proficiency.assingment.ui
+package com.proficiency.assingment.ui.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -11,15 +11,15 @@ import com.proficiency.assingment.repository.Repository
 import com.proficiency.assingment.util.Resource
 import com.proficiency.assingment.util.Utils
 import kotlinx.coroutines.launch
-import retrofit2.Response
 import java.io.IOException
-
 
 class FactsViewModel(
     app: Application,
     private val repository: Repository
 ) : AndroidViewModel(app) {
     val mutableLiveData: MutableLiveData<Resource<FactsResponse>> = MutableLiveData()
+    private var viewModelProvider: ViewModelProvider = ViewModelProvider()
+
     init {
         getFacts()
     }
@@ -29,7 +29,13 @@ class FactsViewModel(
         try {
             if (Utils.hasInternetConnection(getApplication<FactsAppliction>())) {
                 val response = repository.getFacts()
-                mutableLiveData.postValue(handleResponse(response))
+                mutableLiveData.postValue(
+                    viewModelProvider.handleResponse(
+                        response,
+                        repository,
+                        this@FactsViewModel
+                    )
+                )
             } else {
                 mutableLiveData.postValue(
                     Resource.Error(
@@ -39,7 +45,6 @@ class FactsViewModel(
                     )
                 )
             }
-
         } catch (t: Throwable) {
             when (t) {
                 is IOException -> mutableLiveData.postValue(
@@ -60,24 +65,6 @@ class FactsViewModel(
         }
     }
 
-    private fun handleResponse(response: Response<FactsResponse>): Resource<FactsResponse>? {
-        if (response.isSuccessful) {
-            response.body()?.let { resultReesponse ->
-                deleteFacts()
-                saveFacts(resultReesponse.rows)
-                return Resource.Success(resultReesponse)
-            }
-        }
-        return Resource.Error(response.message())
-    }
-
-    fun saveFacts(row: ArrayList<FactsResponse.Row>) = viewModelScope.launch {
-        repository.upsert(row)
-    }
-
     fun getSavedFacts() = repository.getSavedFacts()
 
-    fun deleteFacts() = viewModelScope.launch {
-        repository.deleteFacts()
-    }
 }

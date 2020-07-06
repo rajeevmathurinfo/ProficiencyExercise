@@ -2,7 +2,6 @@ package com.proficiency.assingment.adapter
 
 import android.text.TextUtils
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -14,8 +13,7 @@ import com.proficiency.assingment.util.Constants.Companion.NO_DEC
 import com.proficiency.assingment.util.Constants.Companion.NO_TITLE
 import kotlinx.android.synthetic.main.item_facts.view.*
 
-class FactsAdapter : RecyclerView.Adapter<FactsAdapter.ViewHolder>() {
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+class FactsAdapter : RecyclerView.Adapter<ViewHolder>() {
 
     private val diffCallBack = object : DiffUtil.ItemCallback<FactsResponse.Row>() {
         override fun areItemsTheSame(
@@ -54,17 +52,18 @@ class FactsAdapter : RecyclerView.Adapter<FactsAdapter.ViewHolder>() {
         val facts = differ.currentList[position]
         holder.itemView.apply {
 
-            if(!TextUtils.isEmpty(facts.title)) {
+            if (!TextUtils.isEmpty(facts.title)) {
                 tvTitle.text = facts.title
-            } else{
+            } else {
                 tvTitle.text = NO_TITLE
             }
-            if(!TextUtils.isEmpty(facts.description)) {
+            if (!TextUtils.isEmpty(facts.description)) {
                 tvDetails.text = facts.description
-            } else{
+            } else {
                 tvDetails.text = NO_DEC
             }
-            Glide.with(this).load(facts.imageHref).placeholder(R.drawable.placeholder).into(imageView)
+            Glide.with(this).load(facts.imageHref).placeholder(R.drawable.placeholder)
+                .into(imageView)
 
             setOnClickListener {
                 onItemClickListener?.let { it(facts) }

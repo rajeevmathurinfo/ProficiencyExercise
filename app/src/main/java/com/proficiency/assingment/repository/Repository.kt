@@ -4,7 +4,7 @@ import com.proficiency.assingment.api.RetrofitInstance
 import com.proficiency.assingment.db.FactsDatabase
 import com.proficiency.assingment.model.FactsResponse
 
-class Repository(val db: FactsDatabase) {
+class Repository(private val db: FactsDatabase) {
 
     suspend fun getFacts() = RetrofitInstance.api.getFacts()
 

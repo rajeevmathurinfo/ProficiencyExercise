@@ -1,14 +1,11 @@
 <resources>
     <string name="app_name">ProficiencyExercise</string>
-    <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="fact_fragment_label">Facts List</string>
-    <string name="details_fragment_label">Facts Details</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
     <string name="an_error">An error accured</string>
     <string name="no_internet">No internet connection</string>
     <string name="network_falure">Network Failure</string>
     <string name="conversion_error">Conversion Error</string>
+    <string name="image_dec">Test dec</string>
+    <string name="empty_msg">No data found. Refresh the screen or try after some time.</string>
 </resources>

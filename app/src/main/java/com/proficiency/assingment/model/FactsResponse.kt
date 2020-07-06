@@ -1,7 +1,6 @@
 package com.proficiency.assingment.model
 
 
-import androidx.annotation.Nullable
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
@@ -15,7 +14,7 @@ data class FactsResponse(
     val title: String
 ) {
     @Entity(
-        tableName = "facts",indices = arrayOf(Index(value = ["imageHref"], unique = true))
+        tableName = "facts", indices = [Index(value = ["imageHref"], unique = true)]
     )
     data class Row(
         @PrimaryKey(
@@ -30,8 +29,4 @@ data class FactsResponse(
         val title: String?
     ) : Serializable
 
-    data class Source(
-        val id: Any,
-        val name: String
-    )
 }

@@ -1,15 +1,13 @@
 package com.proficiency.assingment
 
-import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.proficiency.assingment.db.FactsDao
 import com.proficiency.assingment.db.FactsDatabase
-import com.proficiency.assingment.model.FactsResponse
 import com.proficiency.assingment.repository.Repository
-import com.proficiency.assingment.ui.FactsViewModel
+import com.proficiency.assingment.ui.viewmodel.FactsViewModel
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.core.IsEqual.equalTo
 import org.junit.After
@@ -20,10 +18,10 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class FactsViewModelTest {
-    lateinit var viewModel: FactsViewModel
-    lateinit var appDatabase: FactsDatabase
-    lateinit var factsDao: FactsDao
-    lateinit var instrumentationContext: Context
+    private lateinit var viewModel: FactsViewModel
+    private lateinit var appDatabase: FactsDatabase
+    private lateinit var factsDao: FactsDao
+    private lateinit var instrumentationContext: Context
 
 
     @Before
@@ -33,7 +31,8 @@ class FactsViewModelTest {
         factsDao = appDatabase.getFacsDao()
 
         val repository = Repository(appDatabase)
-        viewModel = FactsViewModel(instrumentationContext as FactsAppliction,
+        viewModel = FactsViewModel(
+            instrumentationContext as FactsAppliction,
             repository
         )
     }
